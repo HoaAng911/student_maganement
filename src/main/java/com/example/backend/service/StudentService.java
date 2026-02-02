@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class StudentService {
     }
 
     // GET by id
-    public Student getStudentById(Integer id) {
+    public Student getStudentById(UUID id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found with id " + id));
     }
@@ -33,15 +34,23 @@ public class StudentService {
     }
 
     // UPDATE
-    public Student updateStudent(Integer id, Student updatedStudent) {
+    public Student updateStudent(UUID id, Student updatedStudent) {
         Student student = getStudentById(id);
         student.setName(updatedStudent.getName());
         student.setAge(updatedStudent.getAge());
+        student.setEmail(updatedStudent.getEmail());
+        student.setPhoneNumber(updatedStudent.getPhoneNumber());
+        student.setAddress(updatedStudent.getAddress());
+        student.setClassName(updatedStudent.getClassName());
         return repository.save(student);
     }
 
     // DELETE
-    public void deleteStudent(Integer id) {
+    public void deleteStudent(UUID id) {
         repository.deleteById(id);
+    }
+    //Search by name
+    public List<Student>getStudentsByName(String name){
+        return repository.findByName(name);
     }
 }
